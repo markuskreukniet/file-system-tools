@@ -1,27 +1,25 @@
 "use strict";
 
-const fs = require("fs");
-
 function App(parent) {
   let that = this;
   this.parent = parent;
 
-  this.render = function () {
-    function countLines(filePath) {
-      const content = fs.readFileSync(filePath, "utf8");
-      const lines = content.split("\n");
+  // this.render = function () {
+  //   that.parent.innerHTML = `yes yes ${countLines(
+  //     "C:/development/file-system-tools/src/app.js"
+  //   )}`;
+  // };
+  // this.init = async function () {
+  //   that.render();
+  // };
+  // this.init();
 
-      return lines.length;
-    }
-
-    that.parent.innerHTML = `yes yes ${countLines(
-      "C:/development/file-system-tools/src/app.js"
-    )}`;
-  };
-  this.init = async function () {
-    that.render();
-  };
-  this.init();
+  window.fileSystem.onDetermineNumberOfFileLines((e, numberOfLines) => {
+    console.log("numberOfLines", numberOfLines);
+  });
+  window.fileSystem.sendDetermineNumberOfFileLines([
+    "C:/development/file-system-tools/src/app.js",
+  ]);
 }
 
 const appElement = document.querySelector("#app");

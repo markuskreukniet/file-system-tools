@@ -52,7 +52,6 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
-//
 const fs = require("fs");
 
 ipcMain.on("send-determine-number-of-file-lines", (e, paths) => {
@@ -64,11 +63,12 @@ ipcMain.on("send-determine-number-of-file-lines", (e, paths) => {
 
 function determineNumberOfFileLines(paths) {
   let result = 0;
+  const stack = [...paths];
 
-  for (let path of paths) {
+  while (stack.length > 0) {
+    const path = stack.pop();
     if (pathIsDirectory(path)) {
-      // const subPaths = getDirectoryPaths(path);
-      // result += determineNumberOfFileLines(subPaths);
+      stack.push(...getDirectoryPaths(path));
     } else {
       result += countLines(path);
     }

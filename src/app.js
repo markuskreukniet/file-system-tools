@@ -18,7 +18,7 @@ function App(parent) {
     console.log("numberOfLines", numberOfLines);
   });
   window.fileSystem.sendDetermineNumberOfFileLines([
-    "C:/development/file-system-tools/src/app.js",
+    "C:/development/file-system-tools/src",
   ]);
 }
 

@@ -4,22 +4,20 @@ function App(parent) {
   let that = this;
   this.parent = parent;
 
-  // this.render = function () {
-  //   that.parent.innerHTML = `yes yes ${countLines(
-  //     "C:/development/file-system-tools/src/app.js"
-  //   )}`;
-  // };
-  // this.init = async function () {
-  //   that.render();
-  // };
-  // this.init();
+  this.create = function () {
+    window.fileSystem.onDetermineNumberOfFileLines((e, numberOfLines) => {
+      that.parent.innerHTML = `yes yes ${numberOfLines}`;
+    });
 
-  window.fileSystem.onDetermineNumberOfFileLines((e, numberOfLines) => {
-    console.log("numberOfLines", numberOfLines);
-  });
-  window.fileSystem.sendDetermineNumberOfFileLines([
-    "C:/development/file-system-tools/src",
-  ]);
+    window.fileSystem.sendDetermineNumberOfFileLines([
+      "C:/development/file-system-tools/src",
+    ]);
+  };
+
+  this.init = async function () {
+    that.create();
+  };
+  this.init();
 }
 
 const appElement = document.querySelector("#app");

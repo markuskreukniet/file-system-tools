@@ -12,8 +12,8 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-      contextIsolation: true, // Security, this value can give protection when true
-      sandbox: true, // Security, this value can give protection when true
+      contextIsolation: true, // Security, this property can give protection when true
+      sandbox: true, // Security, this property can give protection when true
       preload: path.join(__dirname, "preload.js"),
     },
   });

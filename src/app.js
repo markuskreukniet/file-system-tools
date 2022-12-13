@@ -1,12 +1,29 @@
 "use strict";
 
+function createElementAppendChild(element, parent) {
+  const result = document.createElement(element);
+  parent.appendChild(result);
+
+  return result;
+}
+
 function App(parent) {
   let that = this;
   this.parent = parent;
 
   this.create = function () {
+    const folderInput = createElementAppendChild("input", that.parent);
+    folderInput.type = "file";
+    folderInput.setAttribute("webkitdirectory", "");
+
+    const fileInput = createElementAppendChild("input", that.parent);
+    fileInput.type = "file";
+
+    const p = createElementAppendChild("p", that.parent);
+
+    // TODO: rename fileSystem
     window.fileSystem.onDetermineNumberOfFileLines((e, numberOfLines) => {
-      that.parent.innerHTML = `yes yes ${numberOfLines}`;
+      p.innerHTML = `numberOfLines: ${numberOfLines}`;
     });
 
     window.fileSystem.sendDetermineNumberOfFileLines([

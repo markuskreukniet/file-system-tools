@@ -70,7 +70,7 @@ function determineNumberOfFileLines(paths) {
     if (pathIsDirectory(path)) {
       stack.push(...getDirectoryPaths(path));
     } else {
-      result += countLines(path);
+      result += countCodeLines(path);
     }
   }
 
@@ -92,9 +92,20 @@ function pathIsDirectory(path) {
   return fs.lstatSync(path).isDirectory();
 }
 
-function countLines(path) {
-  const content = fs.readFileSync(path, { encoding: "utf8" });
-  const lines = content.split("\n");
+function countCodeLines(path) {
+  let code = fs.readFileSync(path, { encoding: "utf8" });
+  code = removeCommentsAndEmptyLines(code);
+  const lines = code.split("\n");
 
   return lines.length;
+}
+
+function removeCommentsAndEmptyLines(code) {
+  // remove comments
+  code = code.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, "");
+
+  let lines = code.split("\n");
+  lines = lines.filter((line) => line.trim() !== "");
+
+  return lines.join("\n");
 }

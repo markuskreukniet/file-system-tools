@@ -3,7 +3,7 @@
 
 const { contextBridge, ipcRenderer } = require("electron");
 
-contextBridge.exposeInMainWorld("fileSystem", {
+contextBridge.exposeInMainWorld("codeQuality", {
   sendDetermineNumberOfFileLines: (paths) =>
     ipcRenderer.send("send-determine-number-of-file-lines", paths),
   onDetermineNumberOfFileLines: (callback) => {

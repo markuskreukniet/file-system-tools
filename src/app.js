@@ -21,12 +21,11 @@ function App(parent) {
 
     const p = createElementAppendChild("p", that.parent);
 
-    // TODO: rename fileSystem
-    window.fileSystem.onDetermineNumberOfFileLines((e, numberOfLines) => {
+    window.codeQuality.onDetermineNumberOfFileLines((e, numberOfLines) => {
       p.innerHTML = `numberOfLines: ${numberOfLines}`;
     });
 
-    window.fileSystem.sendDetermineNumberOfFileLines([
+    window.codeQuality.sendDetermineNumberOfFileLines([
       "C:/development/file-system-tools/src",
     ]);
   };

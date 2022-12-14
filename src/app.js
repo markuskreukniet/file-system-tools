@@ -24,7 +24,7 @@ function App(parent) {
     const ul = createElementAppendChild("ul", that.parent);
 
     folderInput.addEventListener("change", (e) => {
-      const files = e.target.files;
+      const files = e.target.files; // It is a FileList, not an array, so we can't use .map
 
       const file = files[0];
       const folderPath = file.path.replace(`\\${file.name}`, "");
@@ -44,9 +44,10 @@ function App(parent) {
     submitButton.innerHTML = "submit";
     submitButton.onclick = sendDetermineNumberOfFileLines;
 
-    // const resetButton = createElementAppendChild("button", that.parent);
-    // resetButton.type = "button";
-    // resetButton.innerHTML = "reset";
+    const resetButton = createElementAppendChild("button", that.parent);
+    resetButton.type = "button";
+    resetButton.innerHTML = "reset";
+    resetButton.onclick = reset;
 
     const p = createElementAppendChild("p", that.parent);
 
@@ -56,6 +57,11 @@ function App(parent) {
 
     function sendDetermineNumberOfFileLines() {
       window.codeQuality.sendDetermineNumberOfFileLines(that.filePaths);
+    }
+
+    function reset() {
+      ul.innerHTML = "";
+      that.filePaths = [];
     }
   };
 

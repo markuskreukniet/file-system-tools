@@ -12,12 +12,41 @@ function App(parent) {
   this.parent = parent;
 
   this.create = function () {
+    that.filePaths = [];
+
     const folderInput = createElementAppendChild("input", that.parent);
     folderInput.type = "file";
     folderInput.setAttribute("webkitdirectory", "");
 
-    const fileInput = createElementAppendChild("input", that.parent);
-    fileInput.type = "file";
+    // const fileInput = createElementAppendChild("input", that.parent);
+    // fileInput.type = "file";
+
+    const ul = createElementAppendChild("ul", that.parent);
+
+    folderInput.addEventListener("change", (e) => {
+      const files = e.target.files;
+
+      const file = files[0];
+      const folderPath = file.path.replace(`\\${file.name}`, "");
+
+      const li = createElementAppendChild("li", ul);
+      li.innerHTML = folderPath;
+
+      for (const x of files) {
+        that.filePaths.push(x.path);
+      }
+
+      folderInput.value = "";
+    });
+
+    const submitButton = createElementAppendChild("button", that.parent);
+    submitButton.type = "button";
+    submitButton.innerHTML = "submit";
+    submitButton.onclick = sendDetermineNumberOfFileLines;
+
+    // const resetButton = createElementAppendChild("button", that.parent);
+    // resetButton.type = "button";
+    // resetButton.innerHTML = "reset";
 
     const p = createElementAppendChild("p", that.parent);
 
@@ -25,9 +54,9 @@ function App(parent) {
       p.innerHTML = `numberOfLines: ${numberOfLines}`;
     });
 
-    window.codeQuality.sendDetermineNumberOfFileLines([
-      "C:/development/file-system-tools/src",
-    ]);
+    function sendDetermineNumberOfFileLines() {
+      window.codeQuality.sendDetermineNumberOfFileLines(that.filePaths);
+    }
   };
 
   this.init = async function () {

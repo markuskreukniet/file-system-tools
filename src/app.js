@@ -15,41 +15,24 @@ function App(parent) {
   this.create = function () {
     that.filePaths = [];
 
-    const folderInput = createElementAppendChild("input", that.parent);
-    folderInput.type = "file";
-    folderInput.setAttribute("webkitdirectory", "");
-    folderInput.id = "folderInput";
-    folderInput.style = "display: none;";
-
-    const folderInputButton = createElementAppendChild("button", that.parent);
-    folderInputButton.type = "button";
-    folderInputButton.innerHTML = "choose folder";
-    folderInputButton.onclick = clickFolderInput;
-
-    function clickFolderInput() {
-      document.getElementById("folderInput").click();
-    }
-
-    // const fileInput = createElementAppendChild("input", that.parent);
-    // fileInput.type = "file";
-
-    const ul = createElementAppendChild("ul", that.parent);
-
-    folderInput.addEventListener("change", (e) => {
-      const files = e.target.files; // It is a FileList, not an array, so we can't use .map
-
+    function handleChange(files) {
       const file = files[0];
       const folderPath = file.path.replace(`\\${file.name}`, "");
 
       const li = createElementAppendChild("li", ul);
       li.innerHTML = folderPath;
 
+      // files is a FileList, not an array, so we can't use .map
       for (const x of files) {
         that.filePaths.push(x.path);
       }
+    }
 
-      folderInput.value = "";
-    });
+    new FileOrFolderInput(that.parent, "folder", "folder", (e) =>
+      handleChange(e.target.files)
+    );
+
+    const ul = createElementAppendChild("ul", that.parent);
 
     const submitButton = createElementAppendChild("button", that.parent);
     submitButton.type = "button";
@@ -111,7 +94,7 @@ function FileOrFolderInput(parent, type, id, listener) {
     button.onclick = clickInput;
 
     const choose = "choose";
-    switch (file) {
+    switch (type) {
       case "tempo":
         button.innerHTML = `${choose} file`;
 

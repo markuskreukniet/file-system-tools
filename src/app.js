@@ -7,6 +7,13 @@ function createElementAppendChild(element, parent) {
   return result;
 }
 
+function createButtonAppendChild(parent, innerHTML, onclick) {
+  const button = createElementAppendChild("button", parent);
+  button.type = "button";
+  button.innerHTML = innerHTML;
+  button.onclick = onclick;
+}
+
 // TODO: add char count, not only lines
 function App(parent) {
   let that = this;
@@ -34,15 +41,12 @@ function App(parent) {
 
     const ul = createElementAppendChild("ul", that.parent);
 
-    const submitButton = createElementAppendChild("button", that.parent);
-    submitButton.type = "button";
-    submitButton.innerHTML = "submit";
-    submitButton.onclick = sendDetermineNumberOfFileLines;
-
-    const resetButton = createElementAppendChild("button", that.parent);
-    resetButton.type = "button";
-    resetButton.innerHTML = "reset";
-    resetButton.onclick = reset;
+    createButtonAppendChild(
+      that.parent,
+      "submit",
+      sendDetermineNumberOfFileLines
+    );
+    createButtonAppendChild(that.parent, "reset", reset);
 
     const p = createElementAppendChild("p", that.parent);
 

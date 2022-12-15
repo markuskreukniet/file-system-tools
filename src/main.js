@@ -101,7 +101,10 @@ function countCodeLines(path) {
 }
 
 function removeCommentsAndEmptyLines(code) {
-  code = code.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, ""); // remove comments
+  code = code.replace(
+    /\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$|<!--(.|\s)*?-->/gm,
+    ""
+  ); // removes JavaScript, HTML, and CSS comments
 
   let lines = code.split("\n");
   lines = lines.filter((line) => line.trim() !== "");

@@ -7,6 +7,7 @@ function createElementAppendChild(element, parent) {
   return result;
 }
 
+// TODO: add char count, not only lines
 function App(parent) {
   let that = this;
   this.parent = parent;

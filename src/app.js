@@ -18,6 +18,17 @@ function App(parent) {
     const folderInput = createElementAppendChild("input", that.parent);
     folderInput.type = "file";
     folderInput.setAttribute("webkitdirectory", "");
+    folderInput.id = "folderInput";
+    folderInput.style = "display: none;";
+
+    const folderInputButton = createElementAppendChild("button", that.parent);
+    folderInputButton.type = "button";
+    folderInputButton.innerHTML = "choose folder";
+    folderInputButton.onclick = clickFolderInput;
+
+    function clickFolderInput() {
+      document.getElementById("folderInput").click();
+    }
 
     // const fileInput = createElementAppendChild("input", that.parent);
     // fileInput.type = "file";

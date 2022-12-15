@@ -41,17 +41,17 @@ function App(parent) {
 
     const ul = createElementAppendChild("ul", that.parent);
 
+    createButtonAppendChild(that.parent, "reset", reset);
     createButtonAppendChild(
       that.parent,
       "submit",
       sendDetermineNumberOfFileLines
     );
-    createButtonAppendChild(that.parent, "reset", reset);
 
     const p = createElementAppendChild("p", that.parent);
 
     window.codeQuality.onDetermineNumberOfFileLines((e, numberOfLines) => {
-      p.innerHTML = `numberOfLines: ${numberOfLines}`;
+      p.innerHTML = `Lines of code: ${numberOfLines}`;
     });
 
     function sendDetermineNumberOfFileLines() {

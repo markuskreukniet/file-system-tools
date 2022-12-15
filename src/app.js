@@ -93,21 +93,19 @@ function FileOrFolderInput(parent, type, id, listener) {
       input.setAttribute("webkitdirectory", "");
     }
 
-    const button = createElementAppendChild("button", that.parent);
-    button.type = "button";
-    button.onclick = clickInput;
-
-    const choose = "choose";
+    let text = "choose ";
     switch (type) {
       case "tempo":
-        button.innerHTML = `${choose} file`;
+        text += "file";
 
         break;
       case "folder":
-        button.innerHTML = `${choose} folder`;
+        text += "folder";
 
         break;
     }
+
+    createButtonAppendChild(that.parent, text, clickInput);
   };
 
   this.init = async function () {

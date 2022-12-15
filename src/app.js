@@ -85,3 +85,46 @@ function App(parent) {
 
 const appElement = document.querySelector("#app");
 new App(appElement);
+
+//
+function FileOrFolderInput(parent, type, id, listener) {
+  let that = this;
+  this.parent = parent;
+
+  this.create = function () {
+    function clickInput() {
+      document.getElementById(id).click();
+    }
+
+    const input = createElementAppendChild("input", that.parent);
+    input.type = "file";
+    input.id = id;
+    input.addEventListener("change", listener);
+    input.style = "display: none;";
+
+    if (type === "folder") {
+      input.setAttribute("webkitdirectory", "");
+    }
+
+    const button = createElementAppendChild("button", that.parent);
+    button.type = "button";
+    button.onclick = clickInput;
+
+    const choose = "choose";
+    switch (file) {
+      case "tempo":
+        button.innerHTML = `${choose} file`;
+
+        break;
+      case "folder":
+        button.innerHTML = `${choose} folder`;
+
+        break;
+    }
+  };
+
+  this.init = async function () {
+    that.create();
+  };
+  this.init();
+}

@@ -162,26 +162,3 @@ function determineDuplicateFilesByHash(paths) {
 
   return result;
 }
-
-function findDuplicateFilePaths(filePaths) {
-  // Create an object to store the count of each file path
-  const pathCounts = {};
-
-  // Iterate over the array of file paths and count the number of times each path appears
-  for (const path of filePaths) {
-    pathCounts[path] = (pathCounts[path] || 0) + 1;
-  }
-
-  // Create an array to store the duplicate file paths
-  const duplicatePaths = [];
-
-  // Iterate over the path counts and add any paths that have a count greater than 1 to the array of duplicates
-  for (const path in pathCounts) {
-    if (pathCounts[path] > 1) {
-      duplicatePaths.push(path);
-    }
-  }
-
-  // Return the array of duplicate file paths
-  return duplicatePaths;
-}

@@ -52,6 +52,7 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
+//
 const fs = require("fs");
 
 ipcMain.on("send-determine-number-of-file-lines", (e, paths) => {
@@ -81,6 +82,7 @@ function getDirectoryPaths(path) {
   const result = [];
   const names = fs.readdirSync(path);
 
+  // TODO: should be a map
   for (const name of names) {
     result.push(`${path}/${name}`);
   }
@@ -110,4 +112,76 @@ function removeCommentsAndEmptyLines(code) {
   lines = lines.filter((line) => line.trim() !== "");
 
   return lines.join("\n");
+}
+
+//
+const crypto = require("crypto");
+
+function determineDuplicateFilesByHash(paths) {
+  const pathHashCombinations = [];
+  for (const path of paths) {
+    const contents = fs.readFileSync(path);
+    const hash = crypto.createHash("md5").update(contents).digest("hex");
+    pathHashCombinations.push({ path: path, hash: hash });
+  }
+
+  const duplicates = [];
+
+  for (const combination of pathHashCombinations) {
+    if (
+      pathHashCombinations.filter((x) => x.path === combination.path).length > 1 // TODO: maybe use any or something like that
+    ) {
+      duplicates.push(combination);
+    }
+  }
+
+  if (duplicates.length === 0) {
+    return "";
+  }
+
+  function compare(a, b) {
+    if (a.hash < b.hash) {
+      return -1;
+    }
+    if (a.hash > b.hash) {
+      return 1;
+    }
+    return 0;
+  }
+
+  duplicates.sort(compare);
+
+  let result = duplicates[0].path;
+  for (let i = 1; i < duplicates.length; i++) {
+    if (duplicates[i].path === duplicates[i - 1].path) {
+      result += `\n${duplicates[i].path}`;
+    } else {
+      result += `\n\n${duplicates[i].path}`;
+    }
+  }
+
+  return result;
+}
+
+function findDuplicateFilePaths(filePaths) {
+  // Create an object to store the count of each file path
+  const pathCounts = {};
+
+  // Iterate over the array of file paths and count the number of times each path appears
+  for (const path of filePaths) {
+    pathCounts[path] = (pathCounts[path] || 0) + 1;
+  }
+
+  // Create an array to store the duplicate file paths
+  const duplicatePaths = [];
+
+  // Iterate over the path counts and add any paths that have a count greater than 1 to the array of duplicates
+  for (const path in pathCounts) {
+    if (pathCounts[path] > 1) {
+      duplicatePaths.push(path);
+    }
+  }
+
+  // Return the array of duplicate file paths
+  return duplicatePaths;
 }

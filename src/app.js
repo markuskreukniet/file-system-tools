@@ -14,6 +14,7 @@ function createButtonAppendChild(parent, innerHTML, onclick) {
   button.onclick = onclick;
 }
 
+// TODO: logical line of code
 // TODO: add char count, not only lines
 function App(parent) {
   let that = this;

@@ -19,15 +19,9 @@ module.exports = {
 };
 
 function getDirectoryPaths(path) {
-  const result = [];
   const names = fs.readdirSync(path);
 
-  // TODO: should be a map
-  for (const name of names) {
-    result.push(`${path}/${name}`);
-  }
-
-  return result;
+  return names.map((name) => `${path}/${name}`);
 }
 
 function pathIsDirectory(path) {

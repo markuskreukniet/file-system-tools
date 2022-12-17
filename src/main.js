@@ -54,10 +54,10 @@ app.on("activate", () => {
 
 const codeQuality = require("./main modules/codeQuality.js");
 
-ipcMain.on("send-determine-number-of-file-lines", (e, paths) => {
+ipcMain.on("send-determine-lines-of-code", (e, paths) => {
   mainWindow.webContents.send(
-    "on-determine-number-of-file-lines",
-    codeQuality.determineNumberOfFileLines(paths)
+    "on-determine-lines-of-code",
+    codeQuality.determineLinesOfCode(paths)
   );
 });
 

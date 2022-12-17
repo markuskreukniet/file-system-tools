@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 module.exports = {
-  determineNumberOfFileLines: function (paths) {
+  determineLinesOfCode: function (paths) {
     let result = 0;
     const stack = [...paths];
 
@@ -10,7 +10,7 @@ module.exports = {
       if (pathIsDirectory(path)) {
         stack.push(...getDirectoryPaths(path));
       } else {
-        result += countCodeLines(path);
+        result += numberOfFileLinesWithoutCommentsAndEmptyLines(path);
       }
     }
 
@@ -34,7 +34,7 @@ function pathIsDirectory(path) {
   return fs.lstatSync(path).isDirectory();
 }
 
-function countCodeLines(path) {
+function numberOfFileLinesWithoutCommentsAndEmptyLines(path) {
   let code = fs.readFileSync(path, { encoding: "utf8" });
   code = removeCommentsAndEmptyLines(code);
   const lines = code.split("\n");

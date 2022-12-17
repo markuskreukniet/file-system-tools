@@ -5,8 +5,8 @@ const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("codeQuality", {
   sendDetermineNumberOfFileLines: (paths) =>
-    ipcRenderer.send("send-determine-number-of-file-lines", paths),
+    ipcRenderer.send("send-determine-lines-of-code", paths),
   onDetermineNumberOfFileLines: (callback) => {
-    ipcRenderer.on("on-determine-number-of-file-lines", callback);
+    ipcRenderer.on("on-determine-lines-of-code", callback);
   },
 });

@@ -61,4 +61,4 @@ ipcMain.on("send-determine-lines-of-code", (e, paths) => {
   );
 });
 
-const codeQuality = require("./main modules/duplicateFiles.js");
+const duplicateFiles = require("./main modules/duplicateFiles.js");

@@ -1,5 +1,15 @@
 "use strict";
 
+function includeScriptInHead(src) {
+  return new Promise((resolve, reject) => {
+    const script = createElementAppendChild("script", document.head);
+
+    script.setAttribute("src", src);
+    script.addEventListener("load", resolve);
+    script.addEventListener("error", reject);
+  });
+}
+
 function createElementAppendChild(element, parent) {
   const result = document.createElement(element);
   parent.appendChild(result);
@@ -19,6 +29,20 @@ function createButtonAppendChild(parent, innerHTML, onclick) {
 function App(parent) {
   let that = this;
   this.parent = parent;
+
+  this.fetch = async function () {
+    const scriptUrls = ["./components/FileOrFolderInput.js"];
+
+    try {
+      const promises = scriptUrls.map((x) => {
+        return includeScriptInHead(x);
+      });
+
+      await Promise.all(promises);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   this.create = function () {
     that.filePaths = [];
@@ -66,6 +90,7 @@ function App(parent) {
   };
 
   this.init = async function () {
+    await that.fetch();
     that.create();
   };
   this.init();
@@ -73,44 +98,3 @@ function App(parent) {
 
 const appElement = document.querySelector("#app");
 new App(appElement);
-
-//
-function FileOrFolderInput(parent, type, id, listener) {
-  let that = this;
-  this.parent = parent;
-
-  this.create = function () {
-    function clickInput() {
-      document.getElementById(id).click();
-    }
-
-    const input = createElementAppendChild("input", that.parent);
-    input.type = "file";
-    input.id = id;
-    input.addEventListener("change", listener);
-    input.style = "display: none;";
-
-    if (type === "folder") {
-      input.setAttribute("webkitdirectory", "");
-    }
-
-    let text = "choose ";
-    switch (type) {
-      case "tempo":
-        text += "file";
-
-        break;
-      case "folder":
-        text += "folder";
-
-        break;
-    }
-
-    createButtonAppendChild(that.parent, text, clickInput);
-  };
-
-  this.init = async function () {
-    that.create();
-  };
-  this.init();
-}

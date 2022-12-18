@@ -49,7 +49,7 @@ function App(parent) {
   };
 
   this.create = function () {
-    function tabClick(text) {
+    function clickedTab(text) {
       console.log("text", text);
       //
     }
@@ -69,7 +69,7 @@ function App(parent) {
       }
     }
 
-    new Tabs(that.parent, ["test", "test2"], tabClick);
+    new Tabs(that.parent, ["test", "test2"], clickedTab);
 
     new FileOrFolderInput(that.parent, "folder", "folder", (e) =>
       handleChange(e.target.files)

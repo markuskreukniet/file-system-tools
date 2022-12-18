@@ -24,6 +24,7 @@ function createButtonAppendChild(parent, innerHTML, onclick) {
   button.onclick = onclick;
 }
 
+// TODO: duplicate code
 // TODO: logical line of code
 // TODO: add char count, not only lines
 function App(parent) {
@@ -31,7 +32,10 @@ function App(parent) {
   this.parent = parent;
 
   this.fetch = async function () {
-    const scriptUrls = ["./components/FileOrFolderInput.js"];
+    const scriptUrls = [
+      "./components/FileOrFolderInput.js",
+      "./components/Tabs.js",
+    ];
 
     try {
       const promises = scriptUrls.map((x) => {
@@ -45,6 +49,11 @@ function App(parent) {
   };
 
   this.create = function () {
+    function tabClick(text) {
+      console.log("text", text);
+      //
+    }
+
     that.filePaths = [];
 
     function handleChange(files) {
@@ -59,6 +68,8 @@ function App(parent) {
         that.filePaths.push(x.path);
       }
     }
+
+    new Tabs(that.parent, ["test", "test2"], tabClick);
 
     new FileOrFolderInput(that.parent, "folder", "folder", (e) =>
       handleChange(e.target.files)

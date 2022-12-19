@@ -34,6 +34,7 @@ function App(parent) {
   this.fetch = async function () {
     const scriptUrls = [
       "./components/FileOrFolderInput.js",
+      "./components/TabContent.js",
       "./components/Tabs.js",
     ];
 

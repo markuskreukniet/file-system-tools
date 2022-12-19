@@ -35,6 +35,7 @@ function App(parent) {
   this.fetch = async function () {
     const scriptUrls = [
       "./components/CodeQuality.js",
+      "./components/DuplicateFiles.js",
       "./components/FileOrFolderInput.js",
       "./components/TabContent.js",
       "./components/Tabs.js",
@@ -55,17 +56,28 @@ function App(parent) {
     const tabTexts = ["Duplicate Files", "Code Quality"];
 
     function clickedTab(text) {
-      console.log("text", text);
-      //
+      for (let i = 0; i < tabTexts.length; i++) {
+        if (tabTexts[i] === text) {
+          tabContents[i].display("block");
+        } else {
+          tabContents[i].display("none");
+        }
+      }
     }
 
     new Tabs(that.parent, tabTexts, clickedTab);
 
+    const tabContents = [];
+
+    const duplicateFilesDiv = createElementAppendChild("div", that.parent);
+    //
+    tabContents.push(new TabContent(that.parent, duplicateFilesDiv));
+
     const codeQualityDiv = createElementAppendChild("div", that.parent);
     new CodeQuality(codeQualityDiv);
+    tabContents.push(new TabContent(that.parent, codeQualityDiv));
 
-    const tabContent = new TabContent(that.parent, codeQualityDiv);
-    tabContent.display("block");
+    tabContents[0].display("block");
   };
 
   this.init = async function () {

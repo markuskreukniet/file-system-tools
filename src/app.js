@@ -24,6 +24,7 @@ function createButtonAppendChild(parent, innerHTML, onclick) {
   button.onclick = onclick;
 }
 
+// TODO: check for making useless elements
 // TODO: duplicate code
 // TODO: logical line of code
 // TODO: add char count, not only lines
@@ -33,6 +34,7 @@ function App(parent) {
 
   this.fetch = async function () {
     const scriptUrls = [
+      "./components/CodeQuality.js",
       "./components/FileOrFolderInput.js",
       "./components/TabContent.js",
       "./components/Tabs.js",
@@ -57,52 +59,10 @@ function App(parent) {
       //
     }
 
-    that.filePaths = [];
-
-    function handleChange(files) {
-      const file = files[0];
-      const folderPath = file.path.replace(`\\${file.name}`, "");
-
-      const li = createElementAppendChild("li", ul);
-      li.innerHTML = folderPath;
-
-      // files is a FileList, not an array, so we can't use .map
-      for (const x of files) {
-        that.filePaths.push(x.path);
-      }
-    }
-
     new Tabs(that.parent, tabTexts, clickedTab);
 
     const codeQualityDiv = createElementAppendChild("div", that.parent);
-
-    new FileOrFolderInput(codeQualityDiv, "folder", "folder", (e) =>
-      handleChange(e.target.files)
-    );
-
-    const ul = createElementAppendChild("ul", codeQualityDiv);
-
-    createButtonAppendChild(codeQualityDiv, "reset", reset);
-    createButtonAppendChild(
-      codeQualityDiv,
-      "submit",
-      sendDetermineNumberOfFileLines
-    );
-
-    const p = createElementAppendChild("p", codeQualityDiv);
-
-    window.codeQuality.onDetermineNumberOfFileLines((e, numberOfLines) => {
-      p.innerHTML = `Lines of code: ${numberOfLines}`;
-    });
-
-    function sendDetermineNumberOfFileLines() {
-      window.codeQuality.sendDetermineNumberOfFileLines(that.filePaths);
-    }
-
-    function reset() {
-      ul.innerHTML = "";
-      that.filePaths = [];
-    }
+    new CodeQuality(codeQualityDiv);
 
     const tabContent = new TabContent(that.parent, codeQualityDiv);
     tabContent.display("block");

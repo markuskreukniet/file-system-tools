@@ -1,9 +1,13 @@
-function TabContent(parent) {
+function TabContent(parent, element) {
   let that = this;
   this.parent = parent;
 
+  this.display = function (display) {
+    that.element.style = `display: ${display}`;
+  };
+
   this.create = function () {
-    that.div = createElementAppendChild("div", parent);
+    that.element = that.parent.appendChild(element);
     that.display("none");
   };
 
@@ -11,14 +15,6 @@ function TabContent(parent) {
     that.create();
   };
   this.init();
-
-  this.appendElement = function (element) {
-    that.div.appendChild(element);
-  };
-
-  this.display = function (display) {
-    that.div.style = `display: ${display}`;
-  };
 
   return this;
 }

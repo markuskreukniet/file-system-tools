@@ -50,6 +50,8 @@ function App(parent) {
   };
 
   this.create = function () {
+    const tabTexts = ["Duplicate Files", "Code Quality"];
+
     function clickedTab(text) {
       console.log("text", text);
       //
@@ -70,22 +72,24 @@ function App(parent) {
       }
     }
 
-    new Tabs(that.parent, ["test", "test2"], clickedTab);
+    new Tabs(that.parent, tabTexts, clickedTab);
 
-    new FileOrFolderInput(that.parent, "folder", "folder", (e) =>
+    const codeQualityDiv = createElementAppendChild("div", that.parent);
+
+    new FileOrFolderInput(codeQualityDiv, "folder", "folder", (e) =>
       handleChange(e.target.files)
     );
 
-    const ul = createElementAppendChild("ul", that.parent);
+    const ul = createElementAppendChild("ul", codeQualityDiv);
 
-    createButtonAppendChild(that.parent, "reset", reset);
+    createButtonAppendChild(codeQualityDiv, "reset", reset);
     createButtonAppendChild(
-      that.parent,
+      codeQualityDiv,
       "submit",
       sendDetermineNumberOfFileLines
     );
 
-    const p = createElementAppendChild("p", that.parent);
+    const p = createElementAppendChild("p", codeQualityDiv);
 
     window.codeQuality.onDetermineNumberOfFileLines((e, numberOfLines) => {
       p.innerHTML = `Lines of code: ${numberOfLines}`;
@@ -99,6 +103,9 @@ function App(parent) {
       ul.innerHTML = "";
       that.filePaths = [];
     }
+
+    const tabContent = new TabContent(that.parent, codeQualityDiv);
+    tabContent.display("block");
   };
 
   this.init = async function () {

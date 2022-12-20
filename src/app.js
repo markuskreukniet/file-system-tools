@@ -53,31 +53,31 @@ function App(parent) {
   };
 
   this.create = function () {
-    const tabTexts = ["Duplicate Files", "Code Quality"];
-
     function clickedTab(text) {
-      for (let i = 0; i < tabTexts.length; i++) {
-        if (tabTexts[i] === text) {
-          tabContents[i].display("block");
+      tabbedContent.forEach(function (value, key) {
+        if (key === text) {
+          value.display("block");
         } else {
-          tabContents[i].display("none");
+          value.display("none");
         }
-      }
+      });
     }
 
+    const tabTexts = ["Duplicate Files", "Code Quality"];
     new Tabs(that.parent, tabTexts, clickedTab);
-
-    const tabContents = [];
 
     const duplicateFilesDiv = createElementAppendChild("div", that.parent);
     //
-    tabContents.push(new TabContent(that.parent, duplicateFilesDiv));
 
     const codeQualityDiv = createElementAppendChild("div", that.parent);
     new CodeQuality(codeQualityDiv);
-    tabContents.push(new TabContent(that.parent, codeQualityDiv));
 
-    tabContents[0].display("block");
+    const tabbedContent = new Map([
+      [tabTexts[0], new TabContent(that.parent, duplicateFilesDiv)],
+      [tabTexts[1], new TabContent(that.parent, codeQualityDiv)],
+    ]);
+
+    tabbedContent.get(tabTexts[0]).display("block");
   };
 
   this.init = async function () {

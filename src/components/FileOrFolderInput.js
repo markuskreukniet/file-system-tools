@@ -3,6 +3,10 @@ function FileOrFolderInput(parent, type, id, listener) {
   this.parent = parent;
 
   this.create = function () {
+    onClick = (e) => {
+      e.target.value = "";
+    };
+
     function clickInput() {
       document.getElementById(id).click();
     }
@@ -11,6 +15,7 @@ function FileOrFolderInput(parent, type, id, listener) {
     input.type = "file";
     input.id = id;
     input.addEventListener("change", listener);
+    input.onclick = onClick; // needed for making selecting the same file or folder after each other possible
     input.style = "display: none;";
 
     if (type === "folder") {

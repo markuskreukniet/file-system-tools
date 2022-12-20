@@ -37,6 +37,7 @@ function App(parent) {
       "./components/CodeQuality.js",
       "./components/DuplicateFiles.js",
       "./components/FileOrFolderInput.js",
+      "./components/FileSelector.js",
       "./components/TabContent.js",
       "./components/Tabs.js",
     ];

@@ -25,20 +25,16 @@ function CodeQuality(parent) {
     const ul = createElementAppendChild("ul", that.parent);
 
     createButtonAppendChild(that.parent, "reset", reset);
-    createButtonAppendChild(
-      that.parent,
-      "submit",
-      sendDetermineNumberOfFileLines
-    );
+    createButtonAppendChild(that.parent, "submit", sendDetermineLinesOfCode);
 
     const p = createElementAppendChild("p", that.parent);
 
-    window.codeQuality.onDetermineNumberOfFileLines((e, numberOfLines) => {
+    window.codeQuality.onDetermineLinesOfCode((e, numberOfLines) => {
       p.innerHTML = `Lines of code: ${numberOfLines}`;
     });
 
-    function sendDetermineNumberOfFileLines() {
-      window.codeQuality.sendDetermineNumberOfFileLines(that.filePaths);
+    function sendDetermineLinesOfCode() {
+      window.codeQuality.sendDetermineLinesOfCode(that.filePaths);
     }
 
     function reset() {

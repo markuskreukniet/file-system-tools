@@ -11,11 +11,10 @@ contextBridge.exposeInMainWorld("duplicateFiles", {
   },
 });
 
-// TODO: refactor function names
 contextBridge.exposeInMainWorld("codeQuality", {
-  sendDetermineNumberOfFileLines: (paths) =>
+  sendDetermineLinesOfCode: (paths) =>
     ipcRenderer.send("send-determine-lines-of-code", paths),
-  onDetermineNumberOfFileLines: (callback) => {
+  onDetermineLinesOfCode: (callback) => {
     ipcRenderer.on("on-determine-lines-of-code", callback);
   },
 });

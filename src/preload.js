@@ -3,6 +3,15 @@
 
 const { contextBridge, ipcRenderer } = require("electron");
 
+contextBridge.exposeInMainWorld("duplicateFiles", {
+  sendDetermineDuplicateFiles: (paths) =>
+    ipcRenderer.send("send-determine-duplicate-files", paths),
+  onDetermineDuplicateFiles: (callback) => {
+    ipcRenderer.on("on-determine-duplicate-files", callback);
+  },
+});
+
+// TODO: refactor function names
 contextBridge.exposeInMainWorld("codeQuality", {
   sendDetermineNumberOfFileLines: (paths) =>
     ipcRenderer.send("send-determine-lines-of-code", paths),

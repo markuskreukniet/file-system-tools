@@ -3,7 +3,11 @@ function DuplicateFiles(parent) {
   this.parent = parent;
 
   this.create = function () {
-    new FileSelector(that.parent, sendDetermineDuplicateFiles);
+    new FileSelector(
+      that.parent,
+      "DuplicateFilesFileSelector",
+      sendDetermineDuplicateFiles
+    );
 
     const p = createElementAppendChild("p", that.parent);
 

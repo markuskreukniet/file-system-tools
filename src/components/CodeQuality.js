@@ -3,12 +3,16 @@ function CodeQuality(parent) {
   this.parent = parent;
 
   this.create = function () {
-    new FileSelector(that.parent, sendDetermineLinesOfCode);
+    new FileSelector(
+      that.parent,
+      "CodeQualityFileSelector",
+      sendDetermineLinesOfCode
+    );
 
     const p = createElementAppendChild("p", that.parent);
 
-    window.codeQuality.onDetermineLinesOfCode((e, numberOfLines) => {
-      p.innerHTML = `Lines of code: ${numberOfLines}`;
+    window.codeQuality.onDetermineLinesOfCode((e, linesOfCode) => {
+      p.innerHTML = `Lines of code: ${linesOfCode}`;
     });
 
     function sendDetermineLinesOfCode(filePaths) {

@@ -68,7 +68,7 @@ function App(parent) {
     new Tabs(that.parent, tabTexts, clickedTab);
 
     const duplicateFilesDiv = createElementAppendChild("div", that.parent);
-    // new DuplicateFiles(duplicateFilesDiv);
+    new DuplicateFiles(duplicateFilesDiv);
 
     const codeQualityDiv = createElementAppendChild("div", that.parent);
     new CodeQuality(codeQualityDiv);

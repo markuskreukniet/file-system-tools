@@ -1,4 +1,4 @@
-function FileSelector(parent, click) {
+function FileSelector(parent, id, click) {
   let that = this;
   this.parent = parent;
 
@@ -18,7 +18,7 @@ function FileSelector(parent, click) {
       }
     }
 
-    new FileOrFolderInput(that.parent, "folder", "folder", (e) =>
+    new FileOrFolderInput(that.parent, "folder", id, (e) =>
       handleChange(e.target.files)
     );
 

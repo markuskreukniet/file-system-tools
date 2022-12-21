@@ -2,6 +2,7 @@ function FileOrFolderInput(parent, type, id, listener) {
   let that = this;
   this.parent = parent;
 
+  // TODO: id becomes id + type
   this.create = function () {
     onClick = (e) => {
       e.target.value = "";

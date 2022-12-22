@@ -14,7 +14,7 @@ module.exports = {
 
     for (const combination of pathHashCombinations) {
       if (
-        pathHashCombinations.filter((x) => x.path === combination.path).length >
+        pathHashCombinations.filter((x) => x.hash === combination.hash).length >
         1 // TODO: maybe use any or something like that
       ) {
         duplicates.push(combination);
@@ -39,10 +39,10 @@ module.exports = {
 
     let result = duplicates[0].path;
     for (let i = 1; i < duplicates.length; i++) {
-      if (duplicates[i].path === duplicates[i - 1].path) {
-        result += `\n${duplicates[i].path}`;
+      if (duplicates[i].hash === duplicates[i - 1].hash) {
+        result += `<br/>${duplicates[i].path}`;
       } else {
-        result += `\n\n${duplicates[i].path}`;
+        result += `<br/><br/>${duplicates[i].path}`;
       }
     }
 

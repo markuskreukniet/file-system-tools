@@ -10,9 +10,14 @@ function DuplicateFiles(parent) {
     );
 
     const p = createElementAppendChild("p", that.parent);
+    p.innerHTML = "Duplicate files:";
+
+    const textarea = createElementAppendChild("textarea", that.parent);
+    textarea.rows = "8";
+    textarea.cols = "55";
 
     window.duplicateFiles.onDetermineDuplicateFiles((e, duplicateFiles) => {
-      p.innerHTML = `Duplicate files:<br/>${duplicateFiles}`;
+      textarea.innerHTML = duplicateFiles;
     });
 
     function sendDetermineDuplicateFiles(filePaths) {

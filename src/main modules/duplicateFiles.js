@@ -39,11 +39,13 @@ module.exports = {
 
     let result = duplicates[0].path;
     for (let i = 1; i < duplicates.length; i++) {
-      if (duplicates[i].hash === duplicates[i - 1].hash) {
-        result += `<br/>${duplicates[i].path}`;
-      } else {
-        result += `<br/><br/>${duplicates[i].path}`;
+      let resultPart = `<br/>${duplicates[i].path}`;
+
+      if (duplicates[i].hash !== duplicates[i - 1].hash) {
+        resultPart = `<br/>${resultPart}`;
       }
+
+      result += resultPart;
     }
 
     return result;

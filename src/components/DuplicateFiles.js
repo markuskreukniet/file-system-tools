@@ -12,7 +12,7 @@ function DuplicateFiles(parent) {
     const p = createElementAppendChild("p", that.parent);
 
     window.duplicateFiles.onDetermineDuplicateFiles((e, duplicateFiles) => {
-      p.innerHTML = `Duplicate files:\n${duplicateFiles}`;
+      p.innerHTML = `Duplicate files:<br/>${duplicateFiles}`;
     });
 
     function sendDetermineDuplicateFiles(filePaths) {

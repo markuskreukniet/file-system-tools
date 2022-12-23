@@ -24,8 +24,12 @@ module.exports = {
     pathHashCombinations.sort(compare);
 
     //
-
     const duplicates = [];
+    // for (let i = 1; i < pathHashCombinations.length; i++) {
+    //   if (pathHashCombinations[i].hash === pathHashCombinations[i - 1].hash) {
+    //     duplicates.push(pathHashCombinations[i]);
+    //   }
+    // }
 
     for (const combination of pathHashCombinations) {
       if (
@@ -36,10 +40,12 @@ module.exports = {
       }
     }
 
+    // return if no duplicates
     if (duplicates.length === 0) {
       return "";
     }
 
+    // result
     let result = duplicates[0].path;
     for (let i = 1; i < duplicates.length; i++) {
       let resultPart = `\n${duplicates[i].path}`;

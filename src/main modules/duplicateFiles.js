@@ -3,6 +3,7 @@ const fs = require("fs");
 
 module.exports = {
   determineDuplicateFiles: function (paths) {
+    // path and content hash combinations of files
     const pathHashCombinations = [];
     for (const path of paths) {
       const contents = fs.readFileSync(path);
@@ -10,21 +11,7 @@ module.exports = {
       pathHashCombinations.push({ path: path, hash: hash });
     }
 
-    const duplicates = [];
-
-    for (const combination of pathHashCombinations) {
-      if (
-        pathHashCombinations.filter((x) => x.hash === combination.hash).length >
-        1 // TODO: maybe use any or something like that
-      ) {
-        duplicates.push(combination);
-      }
-    }
-
-    if (duplicates.length === 0) {
-      return "";
-    }
-
+    // sort combinations
     function compare(a, b) {
       if (a.hash < b.hash) {
         return -1;
@@ -34,8 +21,24 @@ module.exports = {
       }
       return 0;
     }
+    pathHashCombinations.sort(compare);
 
-    duplicates.sort(compare);
+    //
+
+    const duplicates = [];
+
+    for (const combination of pathHashCombinations) {
+      if (
+        pathHashCombinations.filter((x) => x.hash === combination.hash).length >
+        1
+      ) {
+        duplicates.push(combination);
+      }
+    }
+
+    if (duplicates.length === 0) {
+      return "";
+    }
 
     let result = duplicates[0].path;
     for (let i = 1; i < duplicates.length; i++) {

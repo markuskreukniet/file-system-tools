@@ -23,24 +23,22 @@ module.exports = {
     }
     pathHashCombinations.sort(compare);
 
-    //
+    // duplicates of pathHashCombinations
     const duplicates = [];
-    // for (let i = 1; i < pathHashCombinations.length; i++) {
-    //   if (pathHashCombinations[i].hash === pathHashCombinations[i - 1].hash) {
-    //     duplicates.push(pathHashCombinations[i]);
-    //   }
-    // }
+    let lastPushedIndex = -1;
 
-    for (const combination of pathHashCombinations) {
-      if (
-        pathHashCombinations.filter((x) => x.hash === combination.hash).length >
-        1
-      ) {
-        duplicates.push(combination);
+    for (let i = 1; i < pathHashCombinations.length; i++) {
+      if (pathHashCombinations[i - 1].hash === pathHashCombinations[i].hash) {
+        if (lastPushedIndex !== i - 1) {
+          duplicates.push(pathHashCombinations[i - 1]);
+        }
+        duplicates.push(pathHashCombinations[i]);
+
+        lastPushedIndex = i;
       }
     }
 
-    // return if no duplicates
+    // return "" if no duplicates
     if (duplicates.length === 0) {
       return "";
     }

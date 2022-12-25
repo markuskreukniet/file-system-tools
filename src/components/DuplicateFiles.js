@@ -16,11 +16,15 @@ function DuplicateFiles(parent) {
     textarea.rows = "8";
     textarea.cols = "55";
 
+    that.loader = new Loader(this.parent);
+
     window.duplicateFiles.onDetermineDuplicateFiles((e, duplicateFiles) => {
       textarea.innerHTML = duplicateFiles;
+      that.loader.display("none");
     });
 
     function sendDetermineDuplicateFiles(filePaths) {
+      that.loader.display("block");
       window.duplicateFiles.sendDetermineDuplicateFiles(filePaths);
     }
   };

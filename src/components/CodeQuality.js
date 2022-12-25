@@ -11,11 +11,15 @@ function CodeQuality(parent) {
 
     const p = createElementAppendChild("p", that.parent);
 
+    that.loader = new Loader(this.parent);
+
     window.codeQuality.onDetermineLinesOfCode((e, linesOfCode) => {
       p.innerHTML = `Lines of code: ${linesOfCode}`;
+      that.loader.display("none");
     });
 
     function sendDetermineLinesOfCode(filePaths) {
+      that.loader.display("block");
       window.codeQuality.sendDetermineLinesOfCode(filePaths);
     }
   };

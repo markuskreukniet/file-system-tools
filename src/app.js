@@ -24,6 +24,13 @@ function createButtonAppendChild(parent, innerHTML, onclick) {
   button.onclick = onclick;
 }
 
+function createElementAppendChildWithClassName(element, parent, className) {
+  const result = createElementAppendChild(element, parent);
+  result.className = className;
+
+  return result;
+}
+
 // TODO: check for making useless elements
 // TODO: duplicate code
 // TODO: logical line of code

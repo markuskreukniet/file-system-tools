@@ -3,15 +3,32 @@ function Tabs(parent, tabTexts, click) {
   this.parent = parent;
 
   this.create = function () {
-    const div = createElementAppendChildWithClassName(
+    const activeClassName = "active";
+
+    function changeActiveTabAndClick(text) {
+      that.activeTab.className = "";
+
+      that.activeTab = document.getElementById(text);
+      that.activeTab.className = activeClassName;
+
+      click(text);
+    }
+
+    const tabs = createElementAppendChildWithClassName(
       "div",
       that.parent,
       "tabs"
     );
 
     for (const text of tabTexts) {
-      createButtonAppendChild(div, text, (e) => click(text));
+      const tab = createButtonAppendChild(tabs, text, (e) =>
+        changeActiveTabAndClick(text)
+      );
+      tab.id = text;
     }
+
+    that.activeTab = document.getElementById(tabTexts[0]);
+    that.activeTab.className = activeClassName;
   };
 
   this.init = async function () {

@@ -22,6 +22,8 @@ function createButtonAppendChild(parent, innerHTML, onclick) {
   button.type = "button";
   button.innerHTML = innerHTML;
   button.onclick = onclick;
+
+  return button;
 }
 
 function createElementAppendChildWithClassName(element, parent, className) {

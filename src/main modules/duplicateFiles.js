@@ -40,7 +40,7 @@ module.exports = {
 
     // return "" if no duplicates
     if (duplicates.length === 0) {
-      return "";
+      return "no duplicates";
     }
 
     // result

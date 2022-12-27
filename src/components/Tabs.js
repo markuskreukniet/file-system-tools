@@ -3,7 +3,11 @@ function Tabs(parent, tabTexts, click) {
   this.parent = parent;
 
   this.create = function () {
-    const div = createElementAppendChild("div", that.parent);
+    const div = createElementAppendChildWithClassName(
+      "div",
+      that.parent,
+      "tabs"
+    );
 
     for (const text of tabTexts) {
       createButtonAppendChild(div, text, (e) => click(text));

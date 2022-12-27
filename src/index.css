@@ -5,3 +5,20 @@ body {
   max-width: 38rem;
   padding: 2rem;
 }
+
+.tabs {
+  border: 1px solid gray;
+  background-color: LightGray;
+}
+
+.tabs button {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+.tabs button:hover, .tabs button.active {
+  background-color: DarkGray;
+}

@@ -9,6 +9,7 @@ function TabContent(parent, element) {
   this.create = function () {
     that.element = that.parent.appendChild(element);
     that.display("none");
+    that.element.className = "margin-top-1";
   };
 
   this.init = async function () {

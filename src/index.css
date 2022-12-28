@@ -22,3 +22,7 @@ body {
 .tabs button:hover, .tabs button.active {
   background-color: DarkGray;
 }
+
+.margin-top-1 {
+  margin-top: 1rem;
+}

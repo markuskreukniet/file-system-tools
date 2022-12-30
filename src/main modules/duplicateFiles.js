@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 
 module.exports = {
-  determineDuplicateFiles: function (paths) {
+  determineDuplicateFiles: async function (paths) {
     // path and content hash combinations of files
     const pathHashCombinations = [];
     for (const path of paths) {

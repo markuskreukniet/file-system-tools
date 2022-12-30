@@ -63,9 +63,7 @@ ipcMain.on("send-determine-lines-of-code", (e, paths) => {
 
 const duplicateFiles = require("./main modules/duplicateFiles.js");
 
-ipcMain.on("send-determine-duplicate-files", (e, paths) => {
-  mainWindow.webContents.send(
-    "on-determine-duplicate-files",
-    duplicateFiles.determineDuplicateFiles(paths)
-  );
-});
+async function getDuplicateFiles(e, paths) {
+  return duplicateFiles.determineDuplicateFiles(paths);
+}
+ipcMain.handle("getDuplicateFiles", getDuplicateFiles);

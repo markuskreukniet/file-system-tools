@@ -6,7 +6,7 @@ function DuplicateFiles(parent) {
     new FileSelector(
       that.parent,
       "DuplicateFilesFileSelector",
-      sendDetermineDuplicateFiles
+      getDuplicateFiles
     );
 
     const p = createElementAppendChild("p", that.parent);
@@ -18,14 +18,12 @@ function DuplicateFiles(parent) {
 
     that.loader = new Loader(this.parent);
 
-    window.duplicateFiles.onDetermineDuplicateFiles((e, duplicateFiles) => {
-      textarea.innerHTML = duplicateFiles;
-      that.loader.display("none");
-    });
-
-    function sendDetermineDuplicateFiles(filePaths) {
+    async function getDuplicateFiles(filePaths) {
       that.loader.display("block");
-      window.duplicateFiles.sendDetermineDuplicateFiles(filePaths);
+      textarea.innerHTML = await window.duplicateFiles.getDuplicateFiles(
+        filePaths
+      );
+      that.loader.display("none");
     }
   };
 

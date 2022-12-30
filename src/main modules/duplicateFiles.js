@@ -1,6 +1,8 @@
 const crypto = require("crypto");
 const fs = require("fs");
 
+// TODO: same files have the same size. Therefore, only hash files with the same size
+// TODO: skip files without any size/content?
 module.exports = {
   determineDuplicateFiles: async function (paths) {
     // path and content hash combinations of files

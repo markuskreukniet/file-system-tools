@@ -9,7 +9,7 @@ module.exports = {
     const pathHashCombinations = [];
     for (const path of paths) {
       const contents = fs.readFileSync(path);
-      const hash = crypto.createHash("md5").update(contents).digest("hex");
+      const hash = crypto.createHash("sha1").update(contents).digest("hex"); // SHA1 is faster than MD5
       pathHashCombinations.push({ path: path, hash: hash });
     }
 

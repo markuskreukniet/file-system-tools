@@ -2,15 +2,27 @@ const crypto = require("crypto");
 const fs = require("fs");
 
 // TODO: same files have the same size. Therefore, only hash files with the same size
-// TODO: skip files without any size/content?
 module.exports = {
   determineDuplicateFiles: async function (paths) {
+    function getHashHex(path) {
+      return new Promise((resolve, reject) => {
+        const hash = crypto.createHash("sha1"); // SHA1 is faster than MD5
+        const stream = fs.createReadStream(path);
+        stream.on("error", (err) => reject(err));
+        stream.on("data", (chunk) => hash.update(chunk));
+        stream.on("end", () => resolve(hash.digest("hex")));
+      });
+    }
+
     // path and content hash combinations of files
     const pathHashCombinations = [];
     for (const path of paths) {
-      const contents = fs.readFileSync(path);
-      const hash = crypto.createHash("sha1").update(contents).digest("hex"); // SHA1 is faster than MD5
-      pathHashCombinations.push({ path: path, hash: hash });
+      const stats = fs.statSync(path);
+      // skip zero-byte files
+      if (stats.size > 0) {
+        const hashHex = await getHashHex(path);
+        pathHashCombinations.push({ path: path, hash: hashHex });
+      }
     }
 
     // sort combinations

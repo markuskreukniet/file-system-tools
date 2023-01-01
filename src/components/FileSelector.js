@@ -7,7 +7,7 @@ function FileSelector(parent, id, click) {
 
     function handleChange(files) {
       const file = files[0];
-      const folderPath = file.path.replace(`\\${file.name}`, "");
+      const folderPath = file.path.replace(`\\${file.name}`, ""); // TODO: does not always give the expected result
 
       const li = createElementAppendChild("li", ul);
       li.innerHTML = folderPath;

@@ -1,7 +1,6 @@
 const crypto = require("crypto");
 const fs = require("fs");
 
-// TODO: same files have the same size. Therefore, only hash files with the same size
 module.exports = {
   determineDuplicateFiles: async function (paths) {
     function getHashHex(path) {
@@ -14,41 +13,47 @@ module.exports = {
       });
     }
 
-    // path and content hash combinations of files
-    const pathHashCombinations = [];
+    // path and size combinations of files
+    const pathSizeCombinations = [];
     for (const path of paths) {
       const stats = fs.statSync(path);
       // skip zero-byte files
       if (stats.size > 0) {
-        const hashHex = await getHashHex(path);
-        pathHashCombinations.push({ path: path, hash: hashHex });
+        pathSizeCombinations.push({ path: path, size: stats.size });
       }
     }
 
     // sort combinations
     function compare(a, b) {
-      if (a.hash < b.hash) {
+      if (a.size < b.size) {
         return -1;
       }
-      if (a.hash > b.hash) {
+      if (a.size > b.size) {
         return 1;
       }
       return 0;
     }
-    pathHashCombinations.sort(compare);
+    pathSizeCombinations.sort(compare);
 
-    // duplicates of pathHashCombinations
+    // duplicates of path and hash combinations
     const duplicates = [];
     let lastPushedIndex = -1;
 
-    for (let i = 1; i < pathHashCombinations.length; i++) {
-      if (pathHashCombinations[i - 1].hash === pathHashCombinations[i].hash) {
-        if (lastPushedIndex !== i - 1) {
-          duplicates.push(pathHashCombinations[i - 1]);
-        }
-        duplicates.push(pathHashCombinations[i]);
+    for (let i = 1; i < pathSizeCombinations.length; i++) {
+      const combination = pathSizeCombinations[i - 1];
+      const combination2 = pathSizeCombinations[i];
 
-        lastPushedIndex = i;
+      if (combination.size === combination2.size) {
+        const hashHex = await getHashHex(combination.path);
+        const hashHex2 = await getHashHex(combination2.path);
+
+        if (hashHex === hashHex2) {
+          if (lastPushedIndex !== i - 1) {
+            duplicates.push({ path: combination.path, hash: hashHex });
+          }
+          duplicates.push({ path: combination2.path, hash: hashHex2 });
+          lastPushedIndex = i;
+        }
       }
     }
 

@@ -13,19 +13,21 @@ module.exports = {
       });
     }
 
-    function getHashHexOfFirstFilePart(path, filePartSize) {
-      return new Promise((resolve, reject) => {
-        const hash = crypto.createHash("sha1"); // SHA1 is faster than MD5
-        const stream = fs.createReadStream(path, {
-          highWaterMark: filePartSize,
-        });
-        stream.on("error", (err) => reject(err));
-        stream.on("data", (chunk) => {
-          resolve(hash.update(chunk).digest("hex"));
-          stream.destroy();
-        });
-      });
-    }
+    // const filePartSize = Math.round((1024 * 1024 * 1024) / 10); // Math.round((1 GiB) / 10)
+    // can be a faster option, but makes hash of a file part
+    // function getHashHexOfFirstFilePart(path, filePartSize) {
+    //   return new Promise((resolve, reject) => {
+    //     const hash = crypto.createHash("sha1"); // SHA1 is faster than MD5
+    //     const stream = fs.createReadStream(path, {
+    //       highWaterMark: filePartSize,
+    //     });
+    //     stream.on("error", (err) => reject(err));
+    //     stream.on("data", (chunk) => {
+    //       resolve(hash.update(chunk).digest("hex"));
+    //       stream.destroy();
+    //     });
+    //   });
+    // }
 
     // path and size combinations of files
     const pathSizeCombinations = [];
@@ -52,21 +54,14 @@ module.exports = {
     // duplicates of path and hash combinations
     const duplicates = [];
     let lastPushedIndex = -1;
-    const filePartSize = Math.round((1024 * 1024 * 1024) / 10); // Math.round((1 GiB) / 10)
 
     for (let i = 1; i < pathSizeCombinations.length; i++) {
       const combination = pathSizeCombinations[i - 1];
       const combination2 = pathSizeCombinations[i];
 
       if (combination.size === combination2.size) {
-        const hashHex = await getHashHexOfFirstFilePart(
-          combination.path,
-          filePartSize
-        );
-        const hashHex2 = await getHashHexOfFirstFilePart(
-          combination2.path,
-          filePartSize
-        );
+        const hashHex = await getHashHex(combination.path);
+        const hashHex2 = await getHashHex(combination2.path);
 
         if (hashHex === hashHex2) {
           if (lastPushedIndex !== i - 1) {

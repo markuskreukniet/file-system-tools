@@ -6,11 +6,24 @@ function FileSelector(parent, id, click) {
     that.filePaths = [];
 
     function handleChange(files) {
-      const file = files[0];
-      const folderPath = file.path.replace(`\\${file.name}`, ""); // TODO: does not always give the expected result
+      function getFolderPath(file) {
+        return file.path.replace(`\\${file.name}`, "");
+      }
+
+      const folderPath = getFolderPath(files[0]);
+      const folderPath2 = getFolderPath(files[files.length - 1]);
+
+      let prefix = "";
+      for (let i = 0; i < folderPath.length; i++) {
+        if (folderPath[i] === folderPath2[i]) {
+          prefix += folderPath[i];
+        } else {
+          break;
+        }
+      }
 
       const li = createElementAppendChild("li", ul);
-      li.innerHTML = folderPath;
+      li.innerHTML = prefix;
 
       // files is a FileList, not an array, so we can't use .map
       for (const x of files) {

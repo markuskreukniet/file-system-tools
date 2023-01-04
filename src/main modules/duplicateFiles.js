@@ -73,7 +73,7 @@ module.exports = {
       }
     }
 
-    // return "" if no duplicates
+    // return if no duplicates
     if (duplicates.length === 0) {
       return "no duplicates";
     }

@@ -33,6 +33,8 @@ function createElementAppendChildWithClassName(element, parent, className) {
   return result;
 }
 
+// TODO: individual file selector
+
 // TODO: check for making useless elements
 // TODO: duplicate code
 // TODO: logical line of code
@@ -47,6 +49,7 @@ function App(parent) {
       "./components/DuplicateFiles.js",
       "./components/FileOrFolderInput.js",
       "./components/FileSelector.js",
+      "./components/H1InnerHTMLWebScraper.js",
       "./components/Loader.js",
       "./components/TabContent.js",
       "./components/Tabs.js",
@@ -74,7 +77,11 @@ function App(parent) {
       });
     }
 
-    const tabTexts = ["Duplicate Files", "Code Quality"];
+    const tabTexts = [
+      "Duplicate Files",
+      "Code Quality",
+      "H1 Inner HTML Web Scraper",
+    ];
     new Tabs(that.parent, tabTexts, clickedTab);
 
     const duplicateFilesDiv = createElementAppendChild("div", that.parent);
@@ -83,9 +90,13 @@ function App(parent) {
     const codeQualityDiv = createElementAppendChild("div", that.parent);
     new CodeQuality(codeQualityDiv);
 
+    const h1InnerHTMLWebScraper = createElementAppendChild("div", that.parent);
+    new H1InnerHTMLWebScraper(h1InnerHTMLWebScraper);
+
     const tabbedContent = new Map([
       [tabTexts[0], new TabContent(that.parent, duplicateFilesDiv)],
       [tabTexts[1], new TabContent(that.parent, codeQualityDiv)],
+      [tabTexts[2], new TabContent(that.parent, h1InnerHTMLWebScraper)],
     ]);
 
     tabbedContent.get(tabTexts[0]).display("block");

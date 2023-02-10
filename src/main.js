@@ -67,3 +67,10 @@ async function getDuplicateFiles(e, paths) {
   return duplicateFiles.determineDuplicateFiles(paths);
 }
 ipcMain.handle("getDuplicateFiles", getDuplicateFiles);
+
+const webScraper = require("./main modules/webScraper.js");
+
+async function getH1InnerHTML(e, urlsString) {
+  return webScraper.getH1InnerHTML(urlsString);
+}
+ipcMain.handle("getH1InnerHTML", getH1InnerHTML);

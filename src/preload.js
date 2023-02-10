@@ -7,6 +7,11 @@ contextBridge.exposeInMainWorld("duplicateFiles", {
   getDuplicateFiles: (paths) => ipcRenderer.invoke("getDuplicateFiles", paths),
 });
 
+contextBridge.exposeInMainWorld("webScraper", {
+  getH1InnerHTML: (urlsString) =>
+    ipcRenderer.invoke("getH1InnerHTML", urlsString),
+});
+
 contextBridge.exposeInMainWorld("codeQuality", {
   sendDetermineLinesOfCode: (paths) =>
     ipcRenderer.send("send-determine-lines-of-code", paths),

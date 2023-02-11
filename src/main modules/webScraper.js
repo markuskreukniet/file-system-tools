@@ -2,16 +2,25 @@ const https = require("https");
 
 module.exports = {
   getH1InnerHTML: async function (urlsString) {
-    const html = await getHttpsData(urlsString);
-    const tags = findHtmlTags(html, "h1");
-    if (tags.length === 1) {
-      // https://css-tricks.com/snippets/javascript/strip-html-tags-in-javascript/
-      const innerHtml = tags[0].replace(/(<([^>]+)>)/gi, "");
+    const delimiter = "https://";
+    const urlParts = urlsString.split(delimiter);
+    urlParts.shift();
 
-      return `"${innerHtml}" by`;
-    } else {
-      return "";
+    let result = "";
+
+    for (const part of urlParts) {
+      const html = await getHttpsData(`${delimiter}${part}`);
+      const tags = findHtmlTags(html, "h1");
+      if (tags.length === 1) {
+        // https://css-tricks.com/snippets/javascript/strip-html-tags-in-javascript/
+        const innerHtml = tags[0].replace(/(<([^>]+)>)/gi, "");
+
+        result += `"${innerHtml}" by`;
+      } else {
+        result += `(${part.split("/")[0]})`;
+      }
     }
+    return result;
   },
 };
 

@@ -15,17 +15,10 @@ module.exports = {
   },
 };
 
-// TODO: check
 function findHtmlTags(html, tag) {
+  // TODO: check https://regex101.com/. It gives now an error
   const regex = new RegExp(`<${tag}[^>]*>(.*?)<\\/${tag}>`, "gi");
-  const tags = [];
-  let match;
-
-  while ((match = regex.exec(html)) !== null) {
-    tags.push(match[0]);
-  }
-
-  return tags;
+  return html.match(regex);
 }
 
 function getHttpsData(url) {

@@ -11,7 +11,7 @@ module.exports = {
     for (const part of urlParts) {
       const html = await getHttpsData(`${delimiter}${part}`);
       const tags = findHtmlTags(html, "h1");
-      if (tags.length === 1) {
+      if (tags?.length === 1) {
         // https://css-tricks.com/snippets/javascript/strip-html-tags-in-javascript/
         const innerHtml = tags[0].replace(/(<([^>]+)>)/gi, "");
 

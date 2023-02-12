@@ -8,15 +8,18 @@ function H1InnerHTMLWebScraper(parent) {
     textarea.rows = "8";
     textarea.cols = "55";
 
+    // TODO: duplicate text
+    createButtonAppendChild(that.parent, "submit", getH1InnerHTML);
+
     that.loader = new Loader(this.parent);
 
-    async function getH1InnerHTML(urlsString) {
+    // TODO textarea.value instead of innerHTML on other places?
+    async function getH1InnerHTML() {
       that.loader.display("block");
-      textarea.innerHTML = await window.webScraper.getH1InnerHTML(urlsString);
+      const urlsString = textarea.value;
+      textarea.value = await window.webScraper.getH1InnerHTML(urlsString);
       that.loader.display("none");
     }
-
-    getH1InnerHTML("https://gptzero.me/");
   };
 
   this.init = async function () {

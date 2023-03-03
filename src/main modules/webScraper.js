@@ -17,7 +17,7 @@ module.exports = {
 
         result += `"${innerHtml}" by`;
       } else {
-        result += `(${part.split("/")[0]})`;
+        result += `"(${part.split("/")[0]})" by`;
       }
     }
     return result;

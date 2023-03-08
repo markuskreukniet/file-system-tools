@@ -6,7 +6,7 @@ module.exports = {
     const urlParts = urlsString.split(delimiter);
     urlParts.shift();
 
-    let result = "";
+    let result = "(sources: ";
 
     for (const part of urlParts) {
       const html = await getHttpsData(`${delimiter}${part}`);
@@ -15,11 +15,18 @@ module.exports = {
         // https://css-tricks.com/snippets/javascript/strip-html-tags-in-javascript/
         const innerHtml = tags[0].replace(/(<([^>]+)>)/gi, "");
 
-        result += `"${innerHtml}" by`;
+        result += `"${innerHtml}" by `;
+
+        if (part.includes("wikipedia")) {
+          result += "Wikipedia, ";
+        }
       } else {
-        result += `"(${part.split("/")[0]})" by`;
+        result += `"(${part.split("/")[0]})" by , `;
       }
     }
+
+    result += ").";
+
     return result;
   },
 };

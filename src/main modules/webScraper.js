@@ -15,10 +15,12 @@ module.exports = {
         // https://css-tricks.com/snippets/javascript/strip-html-tags-in-javascript/
         const innerHtml = tags[0].replace(/(<([^>]+)>)/gi, "");
 
-        result += `"${innerHtml}" by `;
+        result += `"${innerHtml}" by`;
 
         if (part.includes("wikipedia")) {
           result += "Wikipedia, ";
+        } else {
+          result += " , ";
         }
       } else {
         result += `"(${part.split("/")[0]})" by , `;
